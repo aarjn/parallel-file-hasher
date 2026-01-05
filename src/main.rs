@@ -1,3 +1,4 @@
+pub mod hasher;
 pub mod thread_pool;
 
 use std::thread;
@@ -16,4 +17,12 @@ fn main() {
     }
 
     println!("All jobs submitted, dropping pool");
+
+    // <-- RIGHT HERE: main() ends, `pool` goes out of scope
+    // rust automatically calls `drop(&mut pool)`
+    // your Drop implementation runs:
+    //   1. Closes the channel
+    //   2. Waits for all workers to finish
+    // without Drop: program exits immediately, jobs might not finish
+    // with Drop: program waits here for all 8 jobs to complete
 }
