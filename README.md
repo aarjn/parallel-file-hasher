@@ -7,7 +7,7 @@ A tool to find duplicate files by hashing them in parallel. Built to understand 
 Scans a directory, computes SHA256 hash of every file using multiple worker threads, and reports duplicates.
 
 ```bash
-cargo run -- ~/Downloads
+cargo run files
 
 # Output:
 # Hashed DirEntry("files/jackfruit.jpeg") on ThreadId(2), Hash: "e4717ec06e5fe05650da538c03f0ac08b428ea49bd406b1ec4b8bedcdf025d71"
@@ -119,7 +119,7 @@ let thread = thread::spawn(move || {
 
 Workers loop forever, waiting for jobs. When the channel closes (sender dropped), `recv()` returns `Err` and they exit cleanly.
 
-### Graceful Shutdown with Drop
+### Why Drop
 
 ```rust
 impl Drop for ThreadPool {
@@ -141,7 +141,7 @@ impl Drop for ThreadPool {
 2. Workers see `Err` from `recv()` → break their loops
 3. `join()` waits for each worker to finish
 
-### Collecting Results
+### Saving Results
 
 ```rust
 let results: Arc<Mutex<HashMap<String, Vec<String>>>> = 
