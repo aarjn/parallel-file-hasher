@@ -6,7 +6,6 @@ use std::collections::HashMap;
 use std::env;
 use std::sync::{Arc, Mutex};
 use std::thread;
-use std::time::Duration;
 use thread_pool::ThreadPool;
 use walkdir::WalkDir;
 
